@@ -1,0 +1,9 @@
+dlib==19.22.99
+Flask==2.0.2
+imutils==0.5.4
+numpy==1.22.0
+opencv_python==4.5.5.62
+tensorflow==2.7.0
+tensorflow_gpu==2.7.0
+tqdm==4.62.3
+Werkzeug==2.0.2
