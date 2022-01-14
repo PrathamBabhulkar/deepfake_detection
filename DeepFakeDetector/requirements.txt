@@ -1,0 +1,6 @@
+dlib==19.22.1
+imutils==0.5.4
+numpy==1.21.0
+opencv_python==4.5.2.54
+tensorflow==2.7.0
+tqdm==4.62.3

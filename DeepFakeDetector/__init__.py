@@ -1,0 +1,3 @@
+from DeepFakeDetector.landmark_utils import LandmarkUtils
+import DeepFakeDetector.extract_landmarks
+import DeepFakeDetector.classify

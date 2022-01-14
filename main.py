@@ -4,12 +4,17 @@
 import os
 from flask import Flask, render_template, flash, request, redirect, url_for
 from werkzeug.utils import secure_filename
+from DeepFakeDetector.extract_landmarks import ExtractLandmarks
+from DeepFakeDetector.classify import Classify
 
-UPLOAD_FOLDER = 'D:\\arnav\\Python\\githubStuff\\deepfake-detection-frontend\\uploads'
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'mp4'}
+
+UPLOAD_FOLDER = 'D:\\arnav\\Python\\githubStuff\\deepfake-detection-frontend\\DeepFakeDetector\\input'
+LANDMARKS_FOLDER = 'D:\\arnav\\Python\\githubStuff\\deepfake-detection-frontend\\DeepFakeDetector\\landmarks'
+ALLOWED_EXTENSIONS = {'mp4'}
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['LANDMARKS_FOLDER'] = LANDMARKS_FOLDER
 
 # @app.route('/')
 # def home():
@@ -39,8 +44,15 @@ def upload_file():
             return "<h1>Select file!</h1>"
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return "<h1>Success!</h1>"
+            video_filename = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            landmark_filename = os.path.join(app.config['LANDMARKS_FOLDER'], f"{filename}.txt")
+            file.save(video_filename)
+            e = ExtractLandmarks()
+            c = Classify()
+
+            os.remove(video_filename)
+            os.remove(landmark_filename)
+            return f"<h1>{c.label}</h1>"
     return '''
     <!doctype html>
     <title>Upload new File</title>
