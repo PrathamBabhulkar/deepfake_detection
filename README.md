@@ -43,12 +43,12 @@ py -3.9-64 -m pip install dlib-19.22.99-cp39-cp39-win_amd64.whl
 py -3.9-64 main.py 
 ```
 
-2. Use this command to send a post request with thw video
+2. Use this command to send a post request with the video
 ```
 curl -F file=@aagfhgtpmv.mp4 "http://127.0.0.1:5000/api"
 ```
 
-3. After a while you will recieve this response
+3. After a while, you will recieve this response
 ```
 {
   "message": "Fake",
