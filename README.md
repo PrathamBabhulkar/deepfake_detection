@@ -17,29 +17,30 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-What things you need to install the software and how to install them.
+Have the following python version
 
 ```
-Give examples
+Python 3.9 64-bit
 ```
 
 ### Installing
 
 A step by step series of examples that tell you how to get a development env running.
 
-Say what the step will be
-
+Install the dependencies using pyinstaller from requirements.txt
 ```
-Give the example
-```
-
-And repeat
-
-```
-until finished
+py -3.9-64 -m pip install -r requirements.txt
 ```
 
-End with an example of getting some data out of the system or using it for a little demo.
+If ```dlib``` doesn't install the use the ```dlib-19.22.99-cp39-cp39-win_amd64.whl```
+```
+py -3.9-64 -m pip install pip install dlib-19.22.99-cp39-cp39-win_amd64.whl
+```
+
+Use python 3.9 to run main.py
+```
+py -3.9-64 main.py 
+```
 
 ## Usage <a name = "usage"></a>
 
