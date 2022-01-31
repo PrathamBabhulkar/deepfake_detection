@@ -5,15 +5,14 @@
 - [About](#about)
 - [Getting Started](#getting_started)
 - [Usage](#usage)
-- [Contributing](../CONTRIBUTING.md)
 
 ## About <a name = "about"></a>
 
-Write about 1-2 paragraphs describing the purpose of your project.
+A flask app to detect video deepfakes.
 
 ## Getting Started <a name = "getting_started"></a>
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See [deployment](#deployment) for notes on how to deploy the project on a live system.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
 ### Prerequisites
 
@@ -27,21 +26,32 @@ Python 3.9 64-bit
 
 A step by step series of examples that tell you how to get a development env running.
 
-Install the dependencies using pyinstaller from requirements.txt
+1. Install the dependencies using pyinstaller from ```requirements.txt```.
 ```
 py -3.9-64 -m pip install -r requirements.txt
 ```
 
-If ```dlib``` doesn't install the use the ```dlib-19.22.99-cp39-cp39-win_amd64.whl```
+2. If ```dlib``` doesn't install on windows the use the ```dlib-19.22.99-cp39-cp39-win_amd64.whl``` file.
 ```
-py -3.9-64 -m pip install pip install dlib-19.22.99-cp39-cp39-win_amd64.whl
-```
-
-Use python 3.9 to run main.py
-```
-py -3.9-64 main.py 
+py -3.9-64 -m pip install dlib-19.22.99-cp39-cp39-win_amd64.whl
 ```
 
 ## Usage <a name = "usage"></a>
 
-Add notes about how to use the system.
+1. Go to the home directory and use python 3.9 to run ```main.py```.
+```
+py -3.9-64 main.py 
+```
+
+2. Use this command to send a post request with thw video
+```
+curl -F file=@aagfhgtpmv.mp4 "http://127.0.0.1:5000/api"
+```
+
+3. After a while you will recieve this response
+```
+{
+  "message": "Fake",
+  "success": true
+}
+```

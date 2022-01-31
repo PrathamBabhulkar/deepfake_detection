@@ -2,7 +2,7 @@
 # https://flask.palletsprojects.com/en/2.0.x/patterns/fileuploads/
 
 import os
-from flask import Flask, render_template, flash, request, redirect, url_for
+from flask import Flask, render_template, flash, request, redirect, url_for, jsonify
 from werkzeug.utils import secure_filename
 from DeepFakeDetector.extract_landmarks import ExtractLandmarks
 from DeepFakeDetector.classify import Classify
@@ -15,7 +15,7 @@ ALLOWED_EXTENSIONS = {'mp4'}
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['LANDMARKS_FOLDER'] = LANDMARKS_FOLDER
-
+app.secret_key = "sdhwiuhdeiuwh"
 # @app.route('/')
 # def home():
 #     return render_template("index.html")
@@ -28,6 +28,7 @@ app.config['LANDMARKS_FOLDER'] = LANDMARKS_FOLDER
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
@@ -44,8 +45,10 @@ def upload_file():
             return "<h1>Select file!</h1>"
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
-            video_filename = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            landmark_filename = os.path.join(app.config['LANDMARKS_FOLDER'], f"{filename}.txt")
+            video_filename = os.path.join(
+                app.config['UPLOAD_FOLDER'], filename)
+            landmark_filename = os.path.join(
+                app.config['LANDMARKS_FOLDER'], f"{filename}.txt")
             file.save(video_filename)
             e = ExtractLandmarks()
             c = Classify()
@@ -63,16 +66,58 @@ def upload_file():
     </form>
     '''
 
+# 
+# curl -X POST "http://127.0.0.1:5000/api" -F file=aagfhgtpmv.mp4
+# curl -F file=@aagfhgtpmv.mp4 "http://127.0.0.1:5000/api"
+@app.route('/api', methods=['POST'])
+def upload_file_api():
+    if request.method == 'POST':
+
+        if 'file' not in request.files:
+            flash('No file part')
+            return jsonify(
+                success=False,
+                message="No .mp4 video file sent."
+            )
+
+        file = request.files['file']
+        if file.filename == '':
+            flash('No selected file')
+            return "<h1>Select file!</h1>"
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            video_filename = os.path.join(
+                app.config['UPLOAD_FOLDER'], filename)
+            landmark_filename = os.path.join(
+                app.config['LANDMARKS_FOLDER'], f"{filename}.txt")
+            file.save(video_filename)
+
+            e = ExtractLandmarks()
+            c = Classify()
+
+            os.remove(video_filename)
+            os.remove(landmark_filename)
+            return jsonify(
+                success=True,
+                message=c.label
+            )
+    return jsonify(
+        success=False,
+        message="Unkown error, please send a video file as a post request."
+    )
+
+
 # def shutdown_server():
 #     func = request.environ.get('werkzeug.server.shutdown')
 #     if func is None:
 #         raise RuntimeError('Not running with the Werkzeug Server')
 #     func()
-    
+
 # @app.get('/shutdown')
 # def shutdown():
 #     shutdown_server()
 #     return 'Server shutting down...'
+
 
 if __name__ == "__main__":
     app.run(debug=True)
