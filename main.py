@@ -8,8 +8,8 @@ from DeepFakeDetector.extract_landmarks import ExtractLandmarks
 from DeepFakeDetector.classify import Classify
 
 
-UPLOAD_FOLDER = 'D:\\arnav\\Python\\githubStuff\\deepfake-detection-frontend\\DeepFakeDetector\\input'
-LANDMARKS_FOLDER = 'D:\\arnav\\Python\\githubStuff\\deepfake-detection-frontend\\DeepFakeDetector\\landmarks'
+UPLOAD_FOLDER = 'D:\\arnav\\Python\\githubStuff\\deepfake-detector\\DeepFakeDetector\\input'
+LANDMARKS_FOLDER = 'D:\\arnav\\Python\\githubStuff\\deepfake-detector\\DeepFakeDetector\\landmarks'
 ALLOWED_EXTENSIONS = {'mp4'}
 
 app = Flask(__name__)
